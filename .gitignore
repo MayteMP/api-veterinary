@@ -29,6 +29,8 @@ build-iPhoneSimulator/
 /.bundle/
 /vendor/bundle
 /lib/bundler/man/
+db/schema.rb
+db/*.sqlite3
 
 # Gemfile.lock
 .ruby-version
