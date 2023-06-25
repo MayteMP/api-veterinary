@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'factory_bot'
+require 'faker'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
