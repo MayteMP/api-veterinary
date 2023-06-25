@@ -8,7 +8,7 @@ FactoryBot.define do
     gengre { 'Male' }
     specie { 'Dog' }
     brees { 'Husky' }
-    microcip_number { '1029384567' }
+    microchip_number { '1029384567' }
     particular_signs { 'Crazy Dog' }
   end
 end

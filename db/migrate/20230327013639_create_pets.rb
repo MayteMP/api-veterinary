@@ -7,7 +7,7 @@ class CreatePets < ActiveRecord::Migration[7.0]
       t.string :gengre
       t.string :specie
       t.string :brees
-      t.string :microcip_number
+      t.string :microchip_number
       t.text :particular_signs
 
       t.timestamps

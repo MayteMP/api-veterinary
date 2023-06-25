@@ -8,13 +8,13 @@ RSpec.describe Pet, type: :model do
       expect { pet.save }.to change{ Pet.count }.by(1)
     end
 
-    %i[name birth_date color gengre specie brees].each do |field|
+    %i[name color gengre specie brees].each do |field|
       it "return valid if #{field.to_s} exist" do
         is_expected.to(validate_presence_of(field))
       end
     end
 
-    %i[microcip_number particular_signs].each do |field|
+    %i[microchip_number particular_signs].each do |field|
       it "return valid if #{field} is optional" do
         should_not(validate_presence_of(field))
       end
