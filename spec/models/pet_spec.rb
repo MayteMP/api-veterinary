@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Pet, type: :model do
@@ -30,13 +32,6 @@ RSpec.describe Pet, type: :model do
 
     it 'returns an error when the gengre is not Female or Male' do
       pet.gengre = 'Undefined'
-      pet.save
-      expect(pet.errors).to_not be_empty
-    end
-
-    # skip test for the moment
-    xit 'returns an error when the birth day is not a date' do
-      pet.birth_date = 'has not date'
       pet.save
       expect(pet.errors).to_not be_empty
     end
