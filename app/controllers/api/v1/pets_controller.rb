@@ -1,9 +1,16 @@
-# frozen_literal_string: true
+# frozen_string_literal: true
 
 class Api::V1::PetsController < ApplicationController
-  before_action :find_pet, only: [:show, :update]
+  before_action :find_pet, only: %i[show update]
   def index
     render(json: Pet.all)
+  end
+
+  def create
+    pet = Pet.new(pet_params)
+    return render(json: pet, serializer: PetSerializer) if pet.save
+
+    render(json: pet.errors, status: :unprocessable_entity)
   end
 
   def show
@@ -11,11 +18,9 @@ class Api::V1::PetsController < ApplicationController
   end
 
   def update
-    if @pet.update(pet_params)
-      render(json: @pet, serializer: PetSerializer)
-    else
-      render(json: @pet.errors, status: :unprocessable_entity)
-    end
+    return render(json: @pet, serializer: PetSerializer) if @pet.update(pet_params)
+
+    render(json: @pet.errors, status: :unprocessable_entity)
   end
 
   private

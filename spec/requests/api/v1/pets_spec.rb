@@ -1,23 +1,24 @@
-# frozen_literal_string: true
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe('Api::V1::Pets', type: :request) do
   describe '#index' do
-    let(:expect_response) {
+    let(:expect_response) do
       [
         {
-          "id":Pet.first.id,
-          "name":"Puppy",
-          "birth_date":"2022-03-26",
-          "color":"Brown",
-          "gengre":"Male",
-          "specie":"Dog",
-          "brees":"Husky",
-          "microchip_number":"1029384567",
-          "particular_signs":"Crazy Dog"
-         }
+          "id": Pet.first.id,
+          "name": 'Puppy',
+          "birth_date": '2022-03-26',
+          "color": 'Brown',
+          "gengre": 'Male',
+          "specie": 'Dog',
+          "brees": 'Husky',
+          "microchip_number": '1029384567',
+          "particular_signs": 'Crazy Dog'
+        }
       ]
-     }
+    end
 
     before { create(:pet) }
 
@@ -27,25 +28,26 @@ RSpec.describe('Api::V1::Pets', type: :request) do
     end
   end
 
-  describe "#show" do
-    let(:expect_response) {
+  describe '#show' do
+    let(:expect_response) do
       {
-        "id":Pet.first.id,
-        "name":"Puppy",
-        "birth_date":"2022-03-26",
-        "color":"Brown",
-        "gengre":"Male",
-        "specie":"Dog",
-        "brees":"Husky",
-        "microchip_number":"1029384567",
-        "particular_signs":"Crazy Dog"
+        "id": Pet.first.id,
+        "name": 'Puppy',
+        "birth_date": '2022-03-26',
+        "color": 'Brown',
+        "gengre": 'Male',
+        "specie": 'Dog',
+        "brees": 'Husky',
+        "microchip_number": '1029384567',
+        "particular_signs": 'Crazy Dog'
       }
-    }
-    let(:expect_response_bad_request) {
+    end
+
+    let(:expect_response_bad_request) do
       {
         "error": "Couldn't find Pet with 'id'=1000"
       }
-    }
+    end
 
     before { create(:pet) }
 
@@ -55,13 +57,13 @@ RSpec.describe('Api::V1::Pets', type: :request) do
     end
 
     it 'return an error message when the record is not found' do
-      get "/api/v1/pets/1000"
+      get '/api/v1/pets/1000'
       response.body.should == expect_response_bad_request.to_json
     end
   end
 
-  describe "#update" do
-    let(:valid_params) {
+  describe '#update' do
+    let(:valid_params) do
       {
         id: Pet.first.id,
         pet: {
@@ -69,9 +71,9 @@ RSpec.describe('Api::V1::Pets', type: :request) do
           specie: 'Cat'
         }
       }
-    }
+    end
 
-    let(:invalid_params) {
+    let(:invalid_params) do
       {
         id: Pet.first.id,
         pet: {
@@ -79,13 +81,13 @@ RSpec.describe('Api::V1::Pets', type: :request) do
           specie: nil
         }
       }
-    }
+    end
 
-    let(:expect_response_bad_request) {
+    let(:expect_response_bad_request) do
       {
         "error": "Couldn't find Pet with 'id'=1000"
       }
-    }
+    end
 
     before { create(:pet) }
 
@@ -96,14 +98,41 @@ RSpec.describe('Api::V1::Pets', type: :request) do
       expect(response).to have_http_status(200)
     end
 
-    it 'change the pet name and specie' do
+    it 'returns a 422 status when recive invalid params' do
       put "/api/v1/pets/#{Pet.first.id}", params: invalid_params
       expect(response).to have_http_status(422)
     end
 
     it 'return an error message when the record is not found' do
-      put "/api/v1/pets/1000"
+      put '/api/v1/pets/1000'
       response.body.should == expect_response_bad_request.to_json
+    end
+  end
+
+  describe '#new' do
+    let(:pet) do
+      {
+        "name": 'Puppy',
+        "birth_date": '2022-03-26',
+        "color": 'Brown',
+        "gengre": 'Male',
+        "specie": 'Dog',
+        "brees": 'Husky',
+        "microchip_number": '1029384567',
+        "particular_signs": 'Crazy Dog'
+      }
+    end
+
+    it 'return a status 200 and pets has one record' do
+      post '/api/v1/pets', params: { pet: pet }
+      expect(Pet.count).to eq(1)
+      expect(response).to have_http_status(200)
+    end
+
+    it 'return a 422 status when the params is invalid' do
+      pet['name'] = ''
+      post '/api/v1/pets', params: { pet: pet }
+      expect(response).to have_http_status(422)
     end
   end
 end

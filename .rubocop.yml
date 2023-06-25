@@ -35,3 +35,11 @@ Metrics/BlockLength:
     - draw
     - configure
     - group
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+  Include:
+    - spec/request/api/v1/*.rb
