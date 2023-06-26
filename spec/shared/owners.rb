@@ -10,9 +10,7 @@ RSpec.shared_context(:owners) do
       address: Owner.first.address,
       phone_number1: Owner.first.phone_number1,
       phone_number2: Owner.first.phone_number2,
-      email: Owner.first.email,
-      created_at: Owner.first.created_at,
-      updated_at: Owner.first.updated_at
+      email: Owner.first.email
     }
   end
 end
