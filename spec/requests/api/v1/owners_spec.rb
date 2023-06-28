@@ -50,4 +50,17 @@ RSpec.describe('Api::V1::Owners', type: :request) do
       end
     end
   end
+
+  describe '#new' do
+    it 'return a status 200 and owners has one record' do
+      post '/api/v1/owners', params: { owner: valid_params }
+      expect(Owner.count).to eq(1)
+      expect(response).to have_http_status(200)
+    end
+
+    it 'return a 422 status when the params is invalid' do
+      post '/api/v1/owners', params: { owner: valid_params }
+      expect(response).to have_http_status(422)
+    end
+  end
 end
