@@ -59,8 +59,47 @@ RSpec.describe('Api::V1::Owners', type: :request) do
     end
 
     it 'return a 422 status when the params is invalid' do
-      post '/api/v1/owners', params: { owner: valid_params }
+      post '/api/v1/owners', params: { owner: invalid_params }
       expect(response).to have_http_status(422)
+    end
+  end
+
+  describe '#update' do
+    let(:valid_update_params) do
+      {
+        id: Owner.first.id,
+        owner: valid_params
+      }
+    end
+
+    let(:invalid_update_params) do
+      {
+        id: Owner.first.id,
+        owner: invalid_params
+      }
+    end
+
+    let(:expect_response_bad_request) do
+      {
+        "error": "Couldn't find Owner with 'id'=1000"
+      }
+    end
+
+    before { create(:owner) }
+
+    it 'change the owner name and specie' do
+      put "/api/v1/owners/#{Owner.first.id}", params: valid_update_params
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns a 422 status when recive invalid params' do
+      put "/api/v1/owners/#{Owner.first.id}", params: invalid_update_params
+      expect(response).to have_http_status(422)
+    end
+
+    it 'return an error message when the record is not found' do
+      put '/api/v1/owners/1000'
+      response.body.should == expect_response_bad_request.to_json
     end
   end
 end

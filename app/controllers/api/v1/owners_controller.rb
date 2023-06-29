@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::OwnersController < ApplicationController
-  before_action :find_owner, only: %i[show]
+  before_action :find_owner, only: %i[show update]
   def index
     render(json: Owner.all)
   end
@@ -15,6 +15,12 @@ class Api::V1::OwnersController < ApplicationController
 
   def show
     render(json: @owner, serializer: OwnerSerializer)
+  end
+
+  def update
+    return render(json: @owner, serializer: OwnerSerializer) if @owner.update(owner_params)
+
+    render(json: @owner.errors, status: :unprocessable_entity)
   end
 
   private
