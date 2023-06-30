@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe('Api::V1::Pets', type: :request) do
-  describe '#index' do
-    let(:owner) { create(:owner) }
+  let(:owner) { create(:owner) }
 
+  describe '#index' do
     let(:expect_response) do
       [
         {
@@ -18,7 +18,7 @@ RSpec.describe('Api::V1::Pets', type: :request) do
           "brees": 'Husky',
           "microchip_number": '1029384567',
           "particular_signs": 'Crazy Dog',
-          "owner": owner
+          "owner_id": owner.id
         }
       ]
     end
@@ -42,7 +42,8 @@ RSpec.describe('Api::V1::Pets', type: :request) do
         "specie": 'Dog',
         "brees": 'Husky',
         "microchip_number": '1029384567',
-        "particular_signs": 'Crazy Dog'
+        "particular_signs": 'Crazy Dog',
+        "owner_id": owner.id
       }
     end
 
@@ -122,7 +123,8 @@ RSpec.describe('Api::V1::Pets', type: :request) do
         "specie": 'Dog',
         "brees": 'Husky',
         "microchip_number": '1029384567',
-        "particular_signs": 'Crazy Dog'
+        "particular_signs": 'Crazy Dog',
+        "owner_id": owner.id
       }
     end
 
