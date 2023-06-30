@@ -5,6 +5,10 @@ require 'rails_helper'
 RSpec.describe(Owner, type: :model) do
   let(:owner) { build(:owner) }
 
+  describe 'associations' do
+    it { should have_many(:pets).class_name('Pet') }
+  end
+
   describe 'when have correct values' do
     it 'retun a record after save' do
       expect { owner.save }.to change { Owner.count }.by(1)

@@ -3,7 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Pet, type: :model do
-  let(:pet) { build(:pet) }
+  let(:owner) { create(:owner) }
+
+  let(:pet) { build(:pet, owner: owner) }
+
+  describe 'associations' do
+    it { should belong_to(:owner).class_name('Owner') }
+  end
 
   describe 'when have correct values' do
     it 'retun a record after save' do

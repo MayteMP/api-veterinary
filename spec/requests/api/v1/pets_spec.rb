@@ -4,6 +4,8 @@ require 'rails_helper'
 
 RSpec.describe('Api::V1::Pets', type: :request) do
   describe '#index' do
+    let(:owner) { create(:owner) }
+
     let(:expect_response) do
       [
         {
@@ -15,12 +17,13 @@ RSpec.describe('Api::V1::Pets', type: :request) do
           "specie": 'Dog',
           "brees": 'Husky',
           "microchip_number": '1029384567',
-          "particular_signs": 'Crazy Dog'
+          "particular_signs": 'Crazy Dog',
+          "owner": owner
         }
       ]
     end
 
-    before { create(:pet) }
+    before { create(:pet, owner: owner) }
 
     it 'load all register pets on json format' do
       get '/api/v1/pets'
@@ -49,7 +52,7 @@ RSpec.describe('Api::V1::Pets', type: :request) do
       }
     end
 
-    before { create(:pet) }
+    before { create(:pet, owner: owner) }
 
     it 'return a specific register from a register pet' do
       get "/api/v1/pets/#{Pet.first.id}"
@@ -89,7 +92,7 @@ RSpec.describe('Api::V1::Pets', type: :request) do
       }
     end
 
-    before { create(:pet) }
+    before { create(:pet, owner: owner) }
 
     it 'change the pet name and specie' do
       put "/api/v1/pets/#{Pet.first.id}", params: valid_params
