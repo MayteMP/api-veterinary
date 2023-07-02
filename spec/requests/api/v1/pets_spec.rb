@@ -3,23 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe('Api::V1::Pets', type: :request) do
+  include_context :pets
+
   let(:owner) { create(:owner) }
 
   describe '#index' do
     let(:expect_response) do
       [
-        {
-          "id": Pet.first.id,
-          "name": 'Puppy',
-          "birth_date": '2022-03-26',
-          "color": 'Brown',
-          "gengre": 'Male',
-          "specie": 'Dog',
-          "brees": 'Husky',
-          "microchip_number": '1029384567',
-          "particular_signs": 'Crazy Dog',
-          "owner_id": owner.id
-        }
+        pet_object
       ]
     end
 
@@ -32,26 +23,7 @@ RSpec.describe('Api::V1::Pets', type: :request) do
   end
 
   describe '#show' do
-    let(:expect_response) do
-      {
-        "id": Pet.first.id,
-        "name": 'Puppy',
-        "birth_date": '2022-03-26',
-        "color": 'Brown',
-        "gengre": 'Male',
-        "specie": 'Dog',
-        "brees": 'Husky',
-        "microchip_number": '1029384567',
-        "particular_signs": 'Crazy Dog',
-        "owner_id": owner.id
-      }
-    end
-
-    let(:expect_response_bad_request) do
-      {
-        "error": "Couldn't find Pet with 'id'=1000"
-      }
-    end
+    let(:expect_response) { pet_object }
 
     before { create(:pet, owner: owner) }
 
@@ -67,32 +39,6 @@ RSpec.describe('Api::V1::Pets', type: :request) do
   end
 
   describe '#update' do
-    let(:valid_params) do
-      {
-        id: Pet.first.id,
-        pet: {
-          name: 'Joe Doe',
-          specie: 'Cat'
-        }
-      }
-    end
-
-    let(:invalid_params) do
-      {
-        id: Pet.first.id,
-        pet: {
-          name: '',
-          specie: nil
-        }
-      }
-    end
-
-    let(:expect_response_bad_request) do
-      {
-        "error": "Couldn't find Pet with 'id'=1000"
-      }
-    end
-
     before { create(:pet, owner: owner) }
 
     it 'change the pet name and specie' do
