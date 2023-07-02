@@ -8,4 +8,4 @@ Things you may want to cover:
 
 * How to run the test suite: **rspec**
 
-Postman collection available soon
+Postman collection available on this [link](https://documenter.getpostman.com/view/22934616/2s93zCYfhZ)
